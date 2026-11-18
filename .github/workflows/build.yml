@@ -1,3 +1,20 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 13 optimizations:
+# - [HIGH] Add gradle dependency cache to "build" job
+# - [HIGH] Add gradle dependency cache to "test" job
+# - [HIGH] Add gradle dependency cache to "test-dab" job
+# - [HIGH] Add gradle dependency cache to "run-examples" job
+# - [HIGH] Add gradle dependency cache to "test-tck" job
+# - [HIGH] Add gradle dependency cache to "tck-compatibility" job
+# - [MEDIUM] Add concurrency group to "build.yml"
+# - [MEDIUM] 6 jobs clone the repo — consider artifact sharing
+# - [LOW] Use shallow clone in "build" job
+# - [LOW] Use shallow clone in "test" job
+# - [LOW] Use shallow clone in "test-dab" job
+# - [LOW] Use shallow clone in "test-tck" job
+# - [LOW] Use shallow clone in "tck-compatibility" job
+# Estimated savings: ~33 min/run
+#
 # SPDX-License-Identifier: Apache-2.0
 name: PR Checks
 
@@ -14,6 +31,10 @@ on:
       - develop
       - release/*
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 defaults:
   run:
     shell: bash
